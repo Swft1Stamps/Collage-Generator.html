@@ -517,24 +517,71 @@
                 </div>
                 
                 <div class="form-group">
-                    <label>Choose Your Style:</label>
+                    <label>Choose Your Background Style:</label>
                     <div class="style-options">
-                        <div class="style-option" data-style="artistic">
+                        <div class="style-option" data-style="collage-artistic">
                             <div class="style-icon">🎨</div>
-                            <div class="style-name">Artistic Flow</div>
+                            <div class="style-name">Artistic Collage</div>
                         </div>
-                        <div class="style-option" data-style="grid">
+                        <div class="style-option" data-style="collage-grid">
                             <div class="style-icon">⚏</div>
-                            <div class="style-name">Clean Grid</div>
+                            <div class="style-name">Grid Collage</div>
                         </div>
-                        <div class="style-option" data-style="heart">
-                            <div class="style-icon">❤️</div>
-                            <div class="style-name">Heart Shape</div>
+                        <div class="style-option" data-style="butterfly-fade">
+                            <div class="style-icon">🦋</div>
+                            <div class="style-name">Fading Butterfly</div>
                         </div>
-                        <div class="style-option" data-style="circle">
-                            <div class="style-icon">⚪</div>
-                            <div class="style-name">Circle Design</div>
+                        <div class="style-option" data-style="galaxy-dream">
+                            <div class="style-icon">🌌</div>
+                            <div class="style-name">Galaxy Dreams</div>
                         </div>
+                        <div class="style-option" data-style="vintage-sunset">
+                            <div class="style-icon">🌅</div>
+                            <div class="style-name">Vintage Sunset</div>
+                        </div>
+                        <div class="style-option" data-style="neon-cyberpunk">
+                            <div class="style-icon">🌃</div>
+                            <div class="style-name">Neon Cyberpunk</div>
+                        </div>
+                    </div>
+                    
+                    <div class="style-options" style="margin-top: 15px;">
+                        <div class="style-option" data-style="botanical-garden">
+                            <div class="style-icon">🌿</div>
+                            <div class="style-name">Botanical Garden</div>
+                        </div>
+                        <div class="style-option" data-style="marble-gold">
+                            <div class="style-icon">✨</div>
+                            <div class="style-name">Marble & Gold</div>
+                        </div>
+                        <div class="style-option" data-style="ocean-waves">
+                            <div class="style-icon">🌊</div>
+                            <div class="style-name">Ocean Waves</div>
+                        </div>
+                        <div class="style-option" data-style="mountain-mist">
+                            <div class="style-icon">🏔️</div>
+                            <div class="style-name">Mountain Mist</div>
+                        </div>
+                        <div class="style-option" data-style="cherry-blossom">
+                            <div class="style-icon">🌸</div>
+                            <div class="style-name">Cherry Blossom</div>
+                        </div>
+                        <div class="style-option" data-style="cosmic-aurora">
+                            <div class="style-icon">🌈</div>
+                            <div class="style-name">Cosmic Aurora</div>
+                        </div>
+                    </div>
+                    
+                    <div id="stylePreview" style="display: none; margin-top: 20px; padding: 20px; border-radius: 15px; text-align: center; min-height: 200px; position: relative; overflow: hidden;">
+                        <h4 style="margin-bottom: 15px; position: relative; z-index: 2;">Preview Style:</h4>
+                        <div id="styleDescription" style="font-style: italic; color: #333; position: relative; z-index: 2; background: rgba(255,255,255,0.9); padding: 10px; border-radius: 10px; backdrop-filter: blur(5px);"></div>
+                        <div id="backgroundPattern" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1; border-radius: 15px;"></div>
+                        <div style="position: relative; z-index: 2; margin-top: 20px; display: flex; justify-content: space-around; flex-wrap: wrap;">
+                            <div style="width: 60px; height: 60px; background: rgba(255,255,255,0.3); border: 2px dashed rgba(255,255,255,0.6); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 5px; backdrop-filter: blur(10px);">📷</div>
+                            <div style="width: 80px; height: 60px; background: rgba(255,255,255,0.3); border: 2px dashed rgba(255,255,255,0.6); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 5px; backdrop-filter: blur(10px);">📸</div>
+                            <div style="width: 60px; height: 60px; background: rgba(255,255,255,0.3); border: 2px dashed rgba(255,255,255,0.6); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 5px; backdrop-filter: blur(10px);">🖼️</div>
+                        </div>
+                        <p style="position: relative; z-index: 2; margin-top: 10px; font-size: 0.9em; opacity: 0.8;">Your photos will be placed over this background</p>
                     </div>
                 </div>
                 
@@ -665,10 +712,25 @@
     function displayUploadedFile(file) {
         const fileItem = document.createElement('div');
         fileItem.className = 'file-item';
+        
+        // Create image preview
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(file);
+        img.style.width = '50px';
+        img.style.height = '50px';
+        img.style.objectFit = 'cover';
+        img.style.borderRadius = '5px';
+        img.style.marginRight = '10px';
+        
         fileItem.innerHTML = `
-            <span class="file-name">${file.name}</span>
-            <span class="remove-file" onclick="removeFile('${file.name}')">✕</span>
+            <div style="display: flex; align-items: center;">
+                <span class="file-name">${file.name}</span>
+                <span class="remove-file" onclick="removeFile('${file.name}')">✕</span>
+            </div>
         `;
+        
+        // Insert image at the beginning
+        fileItem.querySelector('div').insertBefore(img, fileItem.querySelector('.file-name'));
         uploadedFilesDiv.appendChild(fileItem);
     }
     
@@ -682,14 +744,148 @@
         }
     }
     
-    // Style selection
+    // Style selection with descriptions
+    const styleDescriptions = {
+        'collage-artistic': 'Your photos arranged in flowing, artistic patterns with creative overlays',
+        'collage-grid': 'Clean, organized grid layout perfect for showcasing multiple memories',
+        'butterfly-fade': 'Ethereal butterflies fading into soft pastels - perfect for dreamy, romantic themes',
+        'galaxy-dream': 'Cosmic space background with nebula colors and starry effects - trending on social media',
+        'vintage-sunset': 'Warm sunset hues with retro film effects and golden hour vibes',
+        'neon-cyberpunk': 'Electric neon colors with futuristic city vibes - very popular with Gen Z',
+        'botanical-garden': 'Lush greenery and floral elements creating a natural, organic feel',
+        'marble-gold': 'Luxury marble textures with gold accents - elegant and sophisticated',
+        'ocean-waves': 'Calming ocean blues with wave patterns - peaceful and serene',
+        'mountain-mist': 'Misty mountain landscapes with soft, dreamy fog effects',
+        'cherry-blossom': 'Delicate pink cherry blossoms with soft spring aesthetics',
+        'cosmic-aurora': 'Northern lights effects with magical, colorful aurora patterns'
+    };
+    
     document.querySelectorAll('.style-option').forEach(option => {
         option.addEventListener('click', function() {
             document.querySelectorAll('.style-option').forEach(opt => opt.classList.remove('selected'));
             this.classList.add('selected');
             selectedStyle = this.dataset.style;
+            
+            // Show style description
+            const preview = document.getElementById('stylePreview');
+            const description = document.getElementById('styleDescription');
+            description.textContent = styleDescriptions[selectedStyle];
+            preview.style.display = 'block';
+            preview.style.background = getStylePreviewColor(selectedStyle);
         });
     });
+    
+    function getStylePreviewColor(style) {
+        const preview = document.getElementById('backgroundPattern');
+        
+        const patterns = {
+            'collage-artistic': () => {
+                preview.style.background = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
+                preview.innerHTML = '';
+            },
+            'collage-grid': () => {
+                preview.style.background = 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)';
+                preview.innerHTML = '<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.1), rgba(255,255,255,0.1) 1px, transparent 1px, transparent 40px), repeating-linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.1) 1px, transparent 1px, transparent 40px);"></div>';
+            },
+            'butterfly-fade': () => {
+                preview.style.background = 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)';
+                preview.innerHTML = `
+                    <div style="position: absolute; top: 20px; right: 20px; font-size: 30px; opacity: 0.6; animation: float 6s ease-in-out infinite;">🦋</div>
+                    <div style="position: absolute; bottom: 30px; left: 30px; font-size: 25px; opacity: 0.4; animation: float 8s ease-in-out infinite reverse;">🦋</div>
+                    <div style="position: absolute; top: 50%; right: 40%; font-size: 20px; opacity: 0.3; animation: float 7s ease-in-out infinite;">🦋</div>
+                    <style>
+                        @keyframes float {
+                            0%, 100% { transform: translateY(0px); }
+                            50% { transform: translateY(-10px); }
+                        }
+                    </style>
+                `;
+            },
+            'galaxy-dream': () => {
+                preview.style.background = 'linear-gradient(135deg, #5b247a 0%, #1bcedf 100%)';
+                preview.innerHTML = `
+                    <div style="position: absolute; top: 15px; left: 20px; color: white; font-size: 8px; opacity: 0.8;">✦</div>
+                    <div style="position: absolute; top: 40px; right: 30px; color: white; font-size: 12px; opacity: 0.9;">✧</div>
+                    <div style="position: absolute; bottom: 30px; left: 40%; color: white; font-size: 10px; opacity: 0.7;">✦</div>
+                    <div style="position: absolute; bottom: 60px; right: 20px; color: white; font-size: 6px; opacity: 0.8;">✧</div>
+                    <div style="position: absolute; top: 30%; left: 15%; color: white; font-size: 14px; opacity: 0.6;">✦</div>
+                    <div style="position: absolute; top: 60%; right: 15%; color: white; font-size: 8px; opacity: 0.9;">✧</div>
+                `;
+            },
+            'vintage-sunset': () => {
+                preview.style.background = 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)';
+                preview.innerHTML = '<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at top right, rgba(255,200,100,0.3) 0%, transparent 50%);"></div>';
+            },
+            'neon-cyberpunk': () => {
+                preview.style.background = 'linear-gradient(135deg, #ff00cc 0%, #333399 100%)';
+                preview.innerHTML = `
+                    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: repeating-linear-gradient(90deg, transparent, transparent 98px, rgba(0,255,255,0.3) 100px), repeating-linear-gradient(0deg, transparent, transparent 98px, rgba(255,0,255,0.3) 100px);"></div>
+                    <div style="position: absolute; top: 20px; right: 20px; color: cyan; font-size: 20px; text-shadow: 0 0 10px cyan;">▲</div>
+                    <div style="position: absolute; bottom: 20px; left: 20px; color: magenta; font-size: 16px; text-shadow: 0 0 10px magenta;">◆</div>
+                `;
+            },
+            'botanical-garden': () => {
+                preview.style.background = 'linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%)';
+                preview.innerHTML = `
+                    <div style="position: absolute; top: 10px; left: 15px; font-size: 25px; opacity: 0.6; color: #2d5016;">🌿</div>
+                    <div style="position: absolute; bottom: 15px; right: 20px; font-size: 30px; opacity: 0.5; color: #2d5016;">🍃</div>
+                    <div style="position: absolute; top: 40%; right: 10px; font-size: 20px; opacity: 0.4; color: #2d5016;">🌱</div>
+                    <div style="position: absolute; bottom: 50%; left: 10px; font-size: 22px; opacity: 0.5; color: #2d5016;">🌾</div>
+                `;
+            },
+            'marble-gold': () => {
+                preview.style.background = 'linear-gradient(135deg, #ddd6f3 0%, #faaca8 100%)';
+                preview.innerHTML = `
+                    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: repeating-linear-gradient(45deg, rgba(255,215,0,0.1) 0px, rgba(255,215,0,0.1) 1px, transparent 1px, transparent 20px), repeating-linear-gradient(-45deg, rgba(255,215,0,0.08) 0px, rgba(255,215,0,0.08) 1px, transparent 1px, transparent 25px);"></div>
+                    <div style="position: absolute; top: 20px; right: 30px; color: gold; font-size: 16px; opacity: 0.7;">✨</div>
+                    <div style="position: absolute; bottom: 25px; left: 25px; color: gold; font-size: 14px; opacity: 0.8;">◊</div>
+                `;
+            },
+            'ocean-waves': () => {
+                preview.style.background = 'linear-gradient(135deg, #667db6 0%, #0082c8 100%)';
+                preview.innerHTML = `
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 30px; background: repeating-linear-gradient(90deg, rgba(255,255,255,0.2) 0px, rgba(255,255,255,0.2) 2px, transparent 2px, transparent 8px); border-radius: 50px 50px 0 0;"></div>
+                    <div style="position: absolute; bottom: 15px; left: 0; right: 0; height: 20px; background: repeating-linear-gradient(90deg, rgba(255,255,255,0.1) 0px, rgba(255,255,255,0.1) 3px, transparent 3px, transparent 12px); border-radius: 30px 30px 0 0;"></div>
+                `;
+            },
+            'mountain-mist': () => {
+                preview.style.background = 'linear-gradient(135deg, #e3eeef 0%, #cfd9df 100%)';
+                preview.innerHTML = `
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 60px; background: linear-gradient(0deg, rgba(200,210,220,0.6) 0%, transparent 100%); clip-path: polygon(0 100%, 20% 60%, 40% 80%, 60% 50%, 80% 70%, 100% 40%, 100% 100%);"></div>
+                    <div style="position: absolute; top: 30%; right: 20%; color: rgba(150,160,170,0.5); font-size: 40px;">☁</div>
+                `;
+            },
+            'cherry-blossom': () => {
+                preview.style.background = 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)';
+                preview.innerHTML = `
+                    <div style="position: absolute; top: 15px; right: 20px; font-size: 22px; opacity: 0.7; color: #d63384;">🌸</div>
+                    <div style="position: absolute; bottom: 20px; left: 25px; font-size: 18px; opacity: 0.6; color: #d63384;">🌸</div>
+                    <div style="position: absolute; top: 45%; left: 15px; font-size: 20px; opacity: 0.5; color: #d63384;">🌸</div>
+                    <div style="position: absolute; top: 25%; right: 40%; font-size: 16px; opacity: 0.8; color: #d63384;">🌸</div>
+                    <div style="position: absolute; bottom: 40%; right: 15px; font-size: 24px; opacity: 0.4; color: #d63384;">🌸</div>
+                `;
+            },
+            'cosmic-aurora': () => {
+                preview.style.background = 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)';
+                preview.innerHTML = `
+                    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(90deg, rgba(168,237,234,0.3) 0%, rgba(254,214,227,0.3) 25%, rgba(168,237,234,0.3) 50%, rgba(254,214,227,0.3) 75%, rgba(168,237,234,0.3) 100%); animation: aurora 4s ease-in-out infinite alternate;"></div>
+                    <style>
+                        @keyframes aurora {
+                            0% { transform: translateX(-10px); opacity: 0.7; }
+                            100% { transform: translateX(10px); opacity: 1; }
+                        }
+                    </style>
+                `;
+            }
+        };
+        
+        if (patterns[style]) {
+            patterns[style]();
+            return '';
+        }
+        
+        return 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+    }
     
     // Size selection from pricing cards
     function selectSize(size) {
@@ -723,31 +919,42 @@
         const message = `
 ```
 
-Order Confirmation - Custom Collage Tapestry
+Order submitted! Here’s what happens next:
 
-Customer: ${data.customerName}
-Email: ${data.customerEmail}
-Phone: ${data.customerPhone}
-Theme: ${data.collageTheme}
-Style: ${selectedStyle}
-Size: ${data.tapestrySize}
-Photos: ${uploadedFiles.length} uploaded
-
-Next Steps:
-
+1. EMAIL YOUR PHOTOS: Send all ${uploadedFiles.length} photos to: collages@yourwebsite.com
+- Subject: “Collage Order - ${data.customerName}”
+- Include: Your name, phone, and this order reference: #${Date.now()}
 1. We’ll create your custom collage preview within 24 hours
-1. Preview will be emailed to you for approval
-1. Pay only after you love the design
+1. Preview sent to: ${data.customerEmail}
+1. Pay only after you approve the design
 1. Tapestry ships within 7-10 days
 
-Questions? Call/text: (314) 555-0123
-Email: collages@yourwebsite.com
+IMPORTANT: Please email your photos now to complete your order!
 
-Thank you for your order!
+Questions? Call/text: (314) 555-0123
+
+Order Reference: #${Date.now()}
 `;
 
 ```
         alert(message);
+        
+        // Also show instructions on page
+        document.querySelector('.order-section').innerHTML = `
+            <div style="text-align: center; padding: 50px;">
+                <h2>✅ Order Submitted!</h2>
+                <div style="background: #e8f5e8; padding: 30px; border-radius: 15px; margin: 20px 0;">
+                    <h3>📧 Next Step: Email Your Photos</h3>
+                    <p style="font-size: 1.2em; margin: 20px 0;">
+                        Send your ${uploadedFiles.length} photos to:<br>
+                        <strong>collages@yourwebsite.com</strong>
+                    </p>
+                    <p>Subject: "Collage Order - ${data.customerName}"</p>
+                    <p>Order Reference: #${Date.now()}</p>
+                </div>
+                <p>Preview delivered within 24 hours!</p>
+            </div>
+        `;
     }
     
     // Smooth scrolling for anchor links
